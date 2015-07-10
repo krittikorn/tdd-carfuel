@@ -25,7 +25,7 @@ namespace CarFuel.Models {
 
     public double? KilometersPerLiter {
       get {
-        if (this.NextFillUp == null) {
+        if (this.NextFillUp == null || this.NextFillUp.IsForgot) {
           return null;
         }
         var kml = (NextFillUp.Odometer - this.Odometer)
@@ -36,5 +36,9 @@ namespace CarFuel.Models {
     }
 
     public FillUp NextFillUp { get; set; }
+
+    public bool IsForgot { get; set; }
+
+    public FillUp PreviousFillUp { get; set; }
   }
 }

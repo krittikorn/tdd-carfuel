@@ -21,6 +21,7 @@ namespace CarFuel.Facts {
         Assert.Equal(0, f.Odometer);
         Assert.Equal(0.0, liters);
         Assert.True(f.IsFull);
+        Assert.False(f.IsForgot);
       }
 
     }
@@ -78,6 +79,63 @@ namespace CarFuel.Facts {
         Assert.Equal(13.4, kml1);
         Assert.Null(kml2);
       }
+    }
+
+    public class IsForgotProperty {
+
+        [Fact]
+        public void ForgotInSecondFillUps_TheFirstIsNotKnown() {
+            var f1 = new FillUp();
+            f1.Odometer = 1000;
+            f1.Liters = 50.0;
+            f1.IsFull = true;
+
+            var f2 = new FillUp();
+            f2.Odometer = 1500;
+            f2.Liters = 40;
+            f2.IsFull = true;
+
+            f1.NextFillUp = f2;
+
+            f2.IsForgot = true;
+
+            var kml1 = f1.KilometersPerLiter;
+            var kml2 = f2.KilometersPerLiter;
+
+            Assert.Null(kml1);
+            Assert.Null(kml2);
+        }
+
+        [Fact]
+        public void InThreeFillUps_ButForgotInSecondFillUps() {
+            var f1 = new FillUp();
+            f1.Odometer = 1000;
+            f1.Liters = 50.0;
+            f1.IsFull = true;
+
+            var f2 = new FillUp();
+            f2.Odometer = 1600;
+            f2.Liters = 60;
+            f2.IsFull = true;
+            f2.IsForgot = true; // *
+
+            var f3 = new FillUp();
+            f3.Odometer = 2000;
+            f3.Liters = 50;
+            f3.IsFull = true;
+
+            f1.NextFillUp = f2;
+            f2.NextFillUp = f3;
+
+            var kml1 = f1.KilometersPerLiter;
+            var kml2 = f2.KilometersPerLiter;
+            var kml3 = f3.KilometersPerLiter;
+
+            Assert.Null(kml1);
+            Assert.Equal(8.0, kml2);
+            Assert.Null(kml3);
+        }
+
     }
 
   }
