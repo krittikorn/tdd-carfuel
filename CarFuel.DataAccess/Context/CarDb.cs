@@ -1,15 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using CarFuel.Models;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CarFuel.DataAccess.Context {
-    class CarDb : DbContext {
+    public class CarDb : DbContext {
 
-        public DbSet Cars { get; set; }
-        public DbSet FillUps { get; set; }
+        public DbSet<Car> Cars { get; set; }
+        public DbSet<FillUp> FillUps { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder) {
+
+            modelBuilder.Entity<FillUp>()
+              .HasOptional(f => f.NextFillUp)
+              .WithOptionalPrincipal(f => f.PreviousFillUp);
+
+        }
 
     }
 }

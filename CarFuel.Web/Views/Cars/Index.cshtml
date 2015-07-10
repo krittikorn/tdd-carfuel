@@ -1,0 +1,52 @@
+﻿@using CarFuel.Models
+@model IEnumerable<Car>
+
+
+<h2>Cars</h2>
+Found @Model.Count() cars.
+<a href="~/Cars/AddCar">Add New Car</a>
+<hr />
+
+@foreach (var c in Model) {
+    <div>
+        <b>@c.Make</b>
+        Fill Ups:
+        <span class="label label-default">
+            @c.FillUps.Count()
+        </span>
+
+        Average:
+        <span class="label label-info">
+            @c.AverageKilometersPerLiter
+        </span> Km./L.
+
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Odometer</th>
+                    <th>Liters</th>
+                    <th>Full?</th>
+                    <th>Forgot?</th>
+                    <th>Km/L.</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+    int n = 1;
+                }
+                @foreach (var fillUp in c.FillUps) {
+                    <tr>
+                        <td>@(n++)</td>
+                        <td>@fillUp.Odometer</td>
+                        <td>@fillUp.Liters.ToString("n2")</td>
+                        <td>@fillUp.IsFull</td>
+                        <td>@fillUp.IsForgot</td>
+                        <td>@fillUp.KilometersPerLiter</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <hr />
+    </div>
+}
