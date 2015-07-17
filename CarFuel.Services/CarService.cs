@@ -1,33 +1,30 @@
 ﻿using CarFuel.DataAccess.Context;
 using CarFuel.DataAccess.Repositories;
 using CarFuel.Models;
+using GFX.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace CarFuel.Services {
-    public class CarService {
+    public class CarService : AppServiceBase<Car> {
 
-        private readonly CarRepository repo;
-        public CarService()
-            : this(new CarRepository()) {
-            //
+        #region Service<T>
+        public override IRepository<Car> Repository { get; set; }
+
+        public override Car Find(params object[] keys) {
+            Guid key1 = (Guid)keys[0];
+            return Query(x => x.Id == key1).SingleOrDefault();
         }
+        #endregion
 
-        public CarService(CarRepository repo) {
-            this.repo = repo;
-            this.repo.Context = new CarDb();
+        public override Car Add(Car item) {
+            var allowedMakes = new string[] { "Honda", "Toyota" };
+            if (!allowedMakes.Contains(item.Make)) {
+                throw new Exception("Invalid make. Can't add.");
+            }
+            return base.Add(item);
         }
-
-        public IEnumerable<Car> GetAll() {
-            return repo.Query(c => true).ToList();
-        }
-
-        public Car Add(Car item) {
-            var c = repo.Add(item);
-            repo.SaveChanges();
-            return c;
-        }
-
 
     }
 }

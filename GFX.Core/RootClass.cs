@@ -64,7 +64,7 @@ namespace GFX.Core {
                     }
 
                     x.Repository = new TRepository();
-                    x.Repository.Context = this.Context;
+                    x.Repository.Context = x.Context;
                     return x;
                 });
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Xunit;
 using CarFuel.Models;
 
-namespace CarFuel.Facts {
+namespace CarFuel.Facts.Models {
 
     public class CarFacts {
 
