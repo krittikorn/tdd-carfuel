@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GFX.Core;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -40,6 +41,7 @@ namespace CarFuel.Models {
             thisFillUp.Liters = liters;
             thisFillUp.IsFull = isFull;
             thisFillUp.IsForgot = isForgot;
+            thisFillUp.Date = SystemTime.Now();
 
             var previousFillUp = this.FillUps.LastOrDefault();
             if (previousFillUp != null) {

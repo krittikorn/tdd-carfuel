@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Xunit;
 using CarFuel.Models;
+using GFX.Core;
 
 namespace CarFuel.Facts.Models {
 
@@ -76,6 +77,17 @@ namespace CarFuel.Facts.Models {
                 Assert.Same(f3, f2.NextFillUp);
 
                 Assert.Same(f1, f2.PreviousFillUp);
+            }
+
+            [Fact]
+            public void NewFillUp_UsesCurrentDateTime() {
+                var c = new Car();
+                var dt = DateTime.Now;
+                SystemTime.SetDateTime(dt);
+
+                var f = c.AddFillUp(1000, 50.0);
+
+                Assert.Equal(dt, SystemTime.Now());
             }
 
 
