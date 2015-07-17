@@ -18,7 +18,7 @@ namespace CarFuel.Facts {
 
         double liters = f.Liters;
 
-        Assert.Equal(0, f.Odometer);
+        Assert.Equal(555, f.Odometer);
         Assert.Equal(0.0, liters);
         Assert.True(f.IsFull);
         Assert.False(f.IsForgot);
